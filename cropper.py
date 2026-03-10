@@ -6,21 +6,34 @@ except ImportError:
     raise ImportError("Wymagana biblioteka Pillow: pip install Pillow")
 
 
-# Parametry z IrfanView "Selection: 91, 2; 218x217"
-CROP_LEFT = 91
-CROP_TOP = 2
-CROP_WIDTH = 218
-CROP_HEIGHT = 217
+def _read_int(prompt: str, min_val: int = 0) -> int:
+    """Wczytuje liczbę całkowitą >= min_val z powtórzeniem przy błędzie."""
+    while True:
+        try:
+            val = int(input(prompt).strip())
+            if val >= min_val:
+                return val
+            print(f"Podaj liczbę >= {min_val}")
+        except ValueError:
+            print("Podaj poprawną liczbę całkowitą.")
+
+
+def _read_crop_params() -> tuple[int, int, int]:
+    """Pyta użytkownika o parametry wycinka: od lewej, od góry, bok kwadratu (px)."""
+    left = _read_int("Piksel od lewej (początek wycinka): ")
+    top = _read_int("Piksel od góry (początek wycinka): ")
+    size = _read_int("Bok kwadratu do wycięcia (px): ", min_val=1)
+    return left, top, size
 
 
 def crop_bmp_series(
     source_dir: str | Path,
     output_dir: str | Path | None = None,
     *,
-    left: int = CROP_LEFT,
-    top: int = CROP_TOP,
-    width: int = CROP_WIDTH,
-    height: int = CROP_HEIGHT,
+    left: int,
+    top: int,
+    width: int,
+    height: int,
 ) -> list[Path]:
     """
     Przechodzi przez wszystkie pliki .bmp w source_dir, wycina z każdego
@@ -59,4 +72,5 @@ if __name__ == "__main__":
 
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else Path.cwd()
     out = Path(sys.argv[2]) if len(sys.argv) > 2 else None
-    crop_bmp_series(src, out)
+    left, top, size = _read_crop_params()
+    crop_bmp_series(src, out, left=left, top=top, width=size, height=size)
