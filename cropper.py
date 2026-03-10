@@ -1,8 +1,3 @@
-"""
-Skrypt do batchowego przycinania BMP do tego samego prostokąta (np. z zaznaczenia IrfanView).
-Zapisuje wyniki jako 001.bmp, 002.bmp, ... w katalogu wyjściowym.
-"""
-
 from pathlib import Path
 
 try:
