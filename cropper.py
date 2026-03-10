@@ -19,10 +19,10 @@ def _read_int(prompt: str, min_val: int = 0) -> int:
 
 
 def _read_crop_params() -> tuple[int, int, int]:
-    """Pyta użytkownika o parametry wycinka: od lewej, od góry, bok kwadratu (px)."""
+    """Pyta użytkownika o parametry wycinka: od lewej, od góry, bok prostokąta (px)."""
     left = _read_int("Piksel od lewej (początek wycinka): ")
     top = _read_int("Piksel od góry (początek wycinka): ")
-    size = _read_int("Bok kwadratu do wycięcia (px): ", min_val=1)
+    size = _read_int("Bok prostokąta do wycięcia (px): ", min_val=1)
     return left, top, size
 
 
